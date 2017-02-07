@@ -10,7 +10,7 @@
             ChangeHourCost(hourCost);
             IsFree = true;
         }
-
+//RANDOM COMMENT
 
 
         public string Name { get; protected set; }
