@@ -8,6 +8,7 @@
     public class App
     {
         //test
+        //NYANYAN
         private readonly IRepository<Bike> _bikeRepository;
         private readonly IBikeService _bikeService;
         private readonly IRepository<Client> _clientRepository;
