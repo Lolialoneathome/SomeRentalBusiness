@@ -12,24 +12,25 @@
         protected readonly IList<PassportDeposit> _passportDeposits = new List<PassportDeposit>();
 
 
-        public RentPoint(
-            Employee employee,
+        public RentPoint(Employee employee,
             decimal money)
         {
             if (employee == null)
                 throw new ArgumentNullException(nameof(employee));
+
+            Employee = employee;
+
             if (money < 0)
                 throw new ArgumentOutOfRangeException(nameof(money));
 
-            Employee = employee;
             Money = money;
         }
 
 
         public decimal Money { get; protected set; }
 
-        public readonly Employee Employee;
-        
+        public readonly Employee Employee;// { get; protected set; }
+
         public IEnumerable<Bike> Bikes => _bikes.AsEnumerable();
 
         public IEnumerable<PassportDeposit> PassportDeposits => _passportDeposits.AsEnumerable();
@@ -112,5 +113,17 @@
 
             _bikes.Remove(bike);
         }
+
+        //protected internal void SetEmployee(Employee employee)
+        //{
+        //    if (employee == null)
+        //        throw new ArgumentNullException(nameof(employee));
+
+        //    if (Employee != null)
+        //        throw new InvalidOperationException("Rent point has employee yet");
+
+        //    Employee = employee;
+        //}
+
     }
 }

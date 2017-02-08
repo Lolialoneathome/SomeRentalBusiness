@@ -15,10 +15,10 @@
             IBikeNameVerifier bikeNameVerifier = new BikeNameVerifier(bikeRepository);
             IBikeService bikeService = new BikeService(bikeRepository, bikeNameVerifier);
 
-            App app = new App(clientRepository, employeeRepository, bikeRepository, bikeService);
+            //App app = new App(clientRepository, employeeRepository, bikeRepository, bikeService);
 
-            app.AddBike("Кама", 50);
-            app.AddBike("Кама", 100);
+            //app.AddBike("Кама", 50);
+            //app.AddBike("Кама", 100);
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using App;
     using Autofac;
+    using Domain.Entities;
     using Domain.Repositories;
     using Domain.Services;
 
@@ -24,6 +25,14 @@
                 .RegisterType<BikeService>()
                 .As<IBikeService>();
 
+            containerBuilder
+                .RegisterType<RentPointService>()
+                .As<IRentPointService>();
+
+            containerBuilder
+                .RegisterType<EmployeeService>()
+                .As<IEmployeeService>();
+
             containerBuilder.RegisterType<App>();
 
             IContainer container = containerBuilder.Build();
@@ -32,8 +41,12 @@
 
             App app = container.Resolve<App>();
 
-            app.AddBike("Кама", 50);
-            app.AddBike("Кама", 100);
+            Employee myEmployee = app.CreateEmployee("Nya", "Nyan", "Nyanyan");
+            RentPoint myRentPoint =  app.AddRentPoint(myEmployee);
+            Client client = app.CreateClient("Keke", "Ke", "Kekekeke");
+
+            app.AddBike("Кама", 50, myRentPoint);
+            app.AddBike("Кама", 100, myRentPoint);
 
 
 

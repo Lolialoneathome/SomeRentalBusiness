@@ -16,7 +16,6 @@
         }
 
 
-
         public bool IsFree(string name)
         {
             return _repository.All().All(x => x.Name != name);

@@ -3,6 +3,7 @@
     using System;
     using Entities;
     using Repositories;
+    using System.Linq;
 
     public class BikeService : IBikeService
     {
@@ -10,7 +11,7 @@
         private readonly IBikeNameVerifier _bikeNameVerifier;
 
 
-        
+
         public BikeService(IRepository<Bike> repository, IBikeNameVerifier bikeNameVerifier)
         {
             if (repository == null)
@@ -47,6 +48,11 @@
                 throw new InvalidOperationException("Bike with same name already exists");
 
             bike.Rename(name);
+        }
+
+        public void MoveBike(string name, RentPoint rentPoint)
+        {
+            _repository.All().SingleOrDefault(x => x.Name == name).MoveTo(rentPoint);
         }
     }
 }
