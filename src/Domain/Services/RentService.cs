@@ -59,6 +59,9 @@
             
             Rent rent = new Rent(client, bike, deposit);
 
+            bike.Take();
+            bike.RentPoint.RemoveBike(bike);
+
             _rentRepository.Add(rent);
         }
 
