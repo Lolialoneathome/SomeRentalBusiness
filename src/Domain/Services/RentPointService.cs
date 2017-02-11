@@ -30,7 +30,10 @@ namespace Domain.Services
             if (money < 0)
                 throw new ArgumentOutOfRangeException(nameof(money));
 
-            RentPoint rentPoint = new RentPoint(employee, money);
+            CashBox cashbox = new CashBox(money);
+            Safe safe = new Safe();
+
+            RentPoint rentPoint = new RentPoint(employee, safe, cashbox);
             _rentPointRepository.Add(rentPoint);
 
             return rentPoint;

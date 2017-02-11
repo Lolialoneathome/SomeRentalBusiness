@@ -55,7 +55,7 @@
                     throw new InvalidOperationException("Deposit sum is not enough");
             }
 
-            bike.RentPoint.PutDeposit(deposit);
+            bike.RentPoint.Safe.PutDeposit(deposit);
             
             Rent rent = new Rent(client, bike, deposit);
 

@@ -9,94 +9,26 @@
     public class RentPoint : IEntity
     {
         protected readonly IList<Bike> _bikes = new List<Bike>();
-        protected readonly IList<PassportDeposit> _passportDeposits = new List<PassportDeposit>();
 
-
-        public RentPoint(Employee employee,
-            decimal money)
+        public RentPoint(Employee employee, Safe safe, CashBox cashbox)
         {
             if (employee == null)
                 throw new ArgumentNullException(nameof(employee));
 
+            if (safe == null)
+                throw new ArgumentNullException(nameof(safe));
+
             Employee = employee;
-
-            if (money < 0)
-                throw new ArgumentOutOfRangeException(nameof(money));
-
-            Money = money;
+            Safe = safe;
+            CashBox = cashbox;
         }
 
-
-        public decimal Money { get; protected set; }
 
         public readonly Employee Employee;// { get; protected set; }
+        public Safe Safe;
+        public CashBox CashBox;
 
         public IEnumerable<Bike> Bikes => _bikes.AsEnumerable();
-
-        public IEnumerable<PassportDeposit> PassportDeposits => _passportDeposits.AsEnumerable();
-
-
-        public void TakeMoney(decimal money)
-        {
-            if (money < 0)
-                throw new ArgumentOutOfRangeException(nameof(money));
-
-            if (money > Money)
-                throw new InvalidOperationException("Not enough money");
-
-            Money -= money;
-        }
-
-        public void PutMoney(decimal money)
-        {
-            if (money < 0)
-                throw new ArgumentOutOfRangeException(nameof(money));
-
-            Money += money;
-        }
-
-        public void PutDeposit(Deposit deposit)
-        {
-            if (deposit == null)
-                throw new ArgumentNullException(nameof(deposit));
-
-            switch (deposit.Type)
-            {
-                case DepositTypes.Money:
-                    PutMoney(((MoneyDeposit)deposit).Sum);
-                    break;
-
-                case DepositTypes.Passport:
-                    _passportDeposits.Add((PassportDeposit)deposit);
-                    break;
-            }
-        }
-
-        public void ReturnDeposit(Deposit deposit)
-        {
-            switch (deposit.Type)
-            {
-                case DepositTypes.Money:
-                    TakeMoney(((MoneyDeposit)deposit).Sum);
-                    break;
-
-                case DepositTypes.Passport:
-
-                    PassportDeposit currentPassportDeposit = (PassportDeposit) deposit;
-
-                    PassportDeposit passportDeposit = _passportDeposits
-                        .SingleOrDefault(x =>
-                            x.Number == currentPassportDeposit.Number &&
-                            x.Series == currentPassportDeposit.Series);
-
-                    if (passportDeposit == null)
-                        throw new InvalidOperationException("No such passport");
-
-                    _passportDeposits.Remove(passportDeposit);
-
-                    break;
-            }
-        }
 
         protected internal void AddBike(Bike bike)
         {

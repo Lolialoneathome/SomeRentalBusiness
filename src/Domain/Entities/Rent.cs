@@ -60,10 +60,24 @@
 
             EndedAt = DateTime.UtcNow;
             EndRentPoint = rentPoint;
-            EndRentPoint.PutMoney(Sum.Value);
+            EndRentPoint.CashBox.PutMoney(Sum.Value);
             Bike.Return();
-            Bike.MoveTo(EndRentPoint);
-            EndRentPoint.ReturnDeposit(Deposit);
+            EndRentPoint.AddBike(Bike);
+            if (StartRentPoint == EndRentPoint)
+            {
+                EndRentPoint.Safe.ReturnDeposit(Deposit);
+            }
+            else
+            {
+                if (Deposit.Type == DepositTypes.Passport)
+                        throw new InvalidOperationException("No such passport here");
+
+                EndRentPoint.CashBox.TakeMoney( ((MoneyDeposit)Deposit).Sum );
+                StartRentPoint.Safe.MoveMoneyToCashBox(StartRentPoint.CashBox, ((MoneyDeposit)Deposit).Sum);
+
+            }
+
+            
         }
     }
 }

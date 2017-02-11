@@ -3,8 +3,10 @@
     using App;
     using Autofac;
     using Domain.Entities;
+    using Domain.Entities.Deposits;
     using Domain.Repositories;
     using Domain.Services;
+    using System.Linq;
 
     public class Program
     {
@@ -33,6 +35,14 @@
                 .RegisterType<EmployeeService>()
                 .As<IEmployeeService>();
 
+            containerBuilder
+                .RegisterType<RentService>()
+                .As<IRentService>();
+
+            containerBuilder
+                .RegisterType<DepositCalculator>()
+                .As<IDepositCalculator>();
+
             containerBuilder.RegisterType<App>();
 
             IContainer container = containerBuilder.Build();
@@ -44,10 +54,14 @@
             Employee myEmployee = app.CreateEmployee("Nya", "Nyan", "Nyanyan");
             RentPoint myRentPoint =  app.AddRentPoint(myEmployee);
             Client client = app.CreateClient("Keke", "Ke", "Kekekeke");
+            Deposit deposit = new MoneyDeposit(5000);
+
 
             app.AddBike("Кама", 50, myRentPoint);
-            app.AddBike("Кама", 100, myRentPoint);
+            //app.AddBike("Кама", 100, myRentPoint);
 
+            Bike iChooseThisBike = app.GetBikes().FirstOrDefault(x => x.Name == "Кама");
+            app.GetBikeInRent(client, iChooseThisBike, deposit);
 
 
             container.Dispose();

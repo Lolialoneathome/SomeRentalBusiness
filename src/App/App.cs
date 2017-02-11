@@ -5,6 +5,7 @@
     using Domain.Entities;
     using Domain.Repositories;
     using Domain.Services;
+    using Domain.Entities.Deposits;
 
     public class App
     {
@@ -12,6 +13,7 @@
         //NYANYAN
         private readonly IRepository<Bike> _bikeRepository;
         private readonly IBikeService _bikeService;
+        private readonly IRentService _rentService;
         private readonly IEmployeeService _employeeService;
         private readonly IRentPointService _rentPointService;
         private readonly IRepository<Client> _clientRepository;
@@ -26,6 +28,7 @@
             IRepository<RentPoint> rentPointRepository,
             IBikeService bikeService,
             IEmployeeService employeeService,
+            IRentService rentService,
             IRentPointService rentPointService)
         {
             _clientRepository = clientRepository;
@@ -35,6 +38,7 @@
             _bikeService = bikeService;
             _employeeService = employeeService;
             _rentPointService = rentPointService;
+            _rentService = rentService;
         }
 
 
@@ -73,6 +77,16 @@
             Client client = new Client(surname, firstname, patronymic);
             _clientRepository.Add(client);
             return client;
+        }
+
+        public void GetBikeInRent(Client client, Bike bike, Deposit deposit)
+        {
+            _rentService.Take(client, bike, deposit);
+        }
+
+        public void ReturnBike(Bike bike, RentPoint rentPoint)
+        {
+            _rentService.Return(bike, rentPoint);
         }
     }
 }
