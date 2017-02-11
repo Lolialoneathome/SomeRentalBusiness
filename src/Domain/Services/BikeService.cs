@@ -9,10 +9,12 @@
     {
         private readonly IRepository<Bike> _repository;
         private readonly IBikeNameVerifier _bikeNameVerifier;
+        private readonly IRepository<Rent> _rentRepository;
 
 
-
-        public BikeService(IRepository<Bike> repository, IBikeNameVerifier bikeNameVerifier)
+        public BikeService(IRepository<Bike> repository, 
+            IBikeNameVerifier bikeNameVerifier,
+            IRepository<Rent> rentRepository)
         {
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
@@ -20,8 +22,12 @@
             if (bikeNameVerifier == null)
                 throw new ArgumentNullException(nameof(bikeNameVerifier));
 
+            if (rentRepository == null)
+                throw new ArgumentNullException(nameof(rentRepository));
+
             _repository = repository;
             _bikeNameVerifier = bikeNameVerifier;
+            _rentRepository = rentRepository;
         }
 
 
@@ -50,9 +56,13 @@
             bike.Rename(name);
         }
 
-        public void MoveBike(string name, RentPoint rentPoint)
+        public void MoveBike(Bike bike, RentPoint rentPoint)
         {
-            _repository.All().SingleOrDefault(x => x.Name == name).MoveTo(rentPoint);
+            Rent rent = _rentRepository.All().SingleOrDefault(x => x.Bike == bike);
+            if (rent != null)
+                throw new InvalidOperationException("Bike is not free");
+
+            bike.MoveTo(rentPoint);
         }
     }
 }

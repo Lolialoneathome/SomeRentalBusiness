@@ -19,7 +19,7 @@
         {
             get
             {
-                return (RentPoint == null) ? true : false;
+                return (RentPoint == null) ? false : true;
             }
         }
 
@@ -43,8 +43,6 @@
 
         public void MoveTo(RentPoint rentPoint)
         {
-            if (!IsFree)
-                throw new InvalidOperationException("Bike is not free");
 
             if (rentPoint == null)
                 throw new ArgumentNullException(nameof(rentPoint));

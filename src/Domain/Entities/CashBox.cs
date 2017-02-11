@@ -9,7 +9,7 @@ namespace Domain.Entities
     {
         public decimal Money { get; private set; }
 
-        public CashBox(decimal startMoney)
+        protected internal CashBox(decimal startMoney)
         {
             if (startMoney < 0)
                 throw new ArgumentOutOfRangeException(nameof(startMoney));

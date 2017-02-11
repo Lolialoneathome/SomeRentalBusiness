@@ -43,6 +43,10 @@
                 .RegisterType<DepositCalculator>()
                 .As<IDepositCalculator>();
 
+            containerBuilder
+                .RegisterType<RentSumCalculate>()
+                .As<IRentSumCalculate>();
+
             containerBuilder.RegisterType<App>();
 
             IContainer container = containerBuilder.Build();
@@ -62,7 +66,7 @@
 
             Bike iChooseThisBike = app.GetBikes().FirstOrDefault(x => x.Name == "Кама");
             app.GetBikeInRent(client, iChooseThisBike, deposit);
-
+            app.GetBikeInRent(client, iChooseThisBike, deposit);
 
             container.Dispose();
         }

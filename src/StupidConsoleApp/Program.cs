@@ -9,11 +9,11 @@
     {
         public static void Main(string[] args)
         {
-            IRepository<Client> clientRepository = new Repository<Client>();
-            IRepository<Employee> employeeRepository = new Repository<Employee>();
-            IRepository<Bike> bikeRepository = new Repository<Bike>();
-            IBikeNameVerifier bikeNameVerifier = new BikeNameVerifier(bikeRepository);
-            IBikeService bikeService = new BikeService(bikeRepository, bikeNameVerifier);
+            //IRepository<Client> clientRepository = new Repository<Client>();
+            //IRepository<Employee> employeeRepository = new Repository<Employee>();
+            //IRepository<Bike> bikeRepository = new Repository<Bike>();
+            //IBikeNameVerifier bikeNameVerifier = new BikeNameVerifier(bikeRepository);
+            //IBikeService bikeService = new BikeService(bikeRepository, bikeNameVerifier);
 
             //App app = new App(clientRepository, employeeRepository, bikeRepository, bikeService);
 

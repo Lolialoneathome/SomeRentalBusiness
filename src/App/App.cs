@@ -6,6 +6,7 @@
     using Domain.Repositories;
     using Domain.Services;
     using Domain.Entities.Deposits;
+    using System.Linq;
 
     public class App
     {
@@ -46,7 +47,8 @@
         public void AddBike(string name, decimal hourCost, RentPoint myRentPoint)
         {
             _bikeService.AddBike(name, hourCost);
-            _bikeService.MoveBike(name, myRentPoint);
+            Bike currentBike = _bikeRepository.All().SingleOrDefault(x => x.Name == name);
+            _bikeService.MoveBike(currentBike, myRentPoint);
         }
 
         public RentPoint AddRentPoint(Employee myEmployee)
