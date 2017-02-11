@@ -66,7 +66,6 @@
             if (!IsFree)
                 throw new InvalidOperationException("Bike is not free");
 
-            IsFree = false;
         }
 
         protected internal void Return()
@@ -74,7 +73,6 @@
             if (IsFree)
                 throw new InvalidOperationException("Bike is free");
 
-            IsFree = true;
         }
     }
 }
