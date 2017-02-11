@@ -51,6 +51,9 @@
             if (!bike.IsFree)
                 throw new InvalidOperationException("Bike is not free");
 
+            if (bike.IsBroken)
+                throw new Exception("Sorry, this bike is broken. Please, choose another.");
+
             if (bike.IsReserved)
             {
                 Reserve reserve = _reserveRepository.All().SingleOrDefault(x => x.Bike == bike);
@@ -63,6 +66,8 @@
                 {
                     if (client != reserve.Client)
                         throw new InvalidOperationException("Bike in reserved");
+                    else
+                        reserve.EndReserve();
                 }
             }
 
@@ -85,13 +90,15 @@
             _rentRepository.Add(rent);
         }
 
-        public void Return(Bike bike, RentPoint rentPoint)
+        public void Return(Bike bike, RentPoint rentPoint, bool IsBroken)
         {
             if (bike == null)
                 throw new ArgumentNullException(nameof(bike));
 
             if (rentPoint == null)
                 throw new ArgumentNullException(nameof(rentPoint));
+
+
 
             Rent rent = _rentRepository
                 .All()
@@ -105,6 +112,12 @@
             decimal sum = _rentSumCalculate.Calcilate(rent.StartedAt, endTime, rent.HourCost);
 
             rent.End(rentPoint, endTime, sum);
+
+            if (IsBroken)
+            {
+                bike.IsBroken = true;
+                rentPoint.CashBox.PutMoney(bike.Cost);
+            }
         }
     }
 }

@@ -34,12 +34,12 @@
 
 
 
-        public void AddBike(string name, decimal hourCost)
+        public void AddBike(string name, decimal hourCost, decimal cost)
         {
             if (!_bikeNameVerifier.IsFree(name))
                 throw new InvalidOperationException("Bike with same name already exists");
 
-            Bike newBike = new Bike(name, hourCost);
+            Bike newBike = new Bike(name, hourCost, cost);
 
             _repository.Add(newBike);
         }

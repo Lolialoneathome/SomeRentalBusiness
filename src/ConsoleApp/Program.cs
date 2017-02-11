@@ -58,13 +58,17 @@
 
             Employee myEmployee = app.CreateEmployee("Nya", "Nyan", "Nyanyan");
             RentPoint myRentPoint =  app.AddRentPoint(myEmployee);
+
+            Employee otherEmployee = app.CreateEmployee("otherNya", "otherNyan", "otherNyanyan");
+            RentPoint otherRentPoint = app.AddRentPoint(otherEmployee);
+
             Client client = app.CreateClient("Keke", "Ke", "Kekekeke");
             Client clientWhoWantTakeReservedBike = app.CreateClient("aaa", "a", "aaaaa");
 
             Deposit deposit = new MoneyDeposit(5000);
 
 
-            app.AddBike("Кама", 50, myRentPoint);
+            app.AddBike("Кама", 50, 4500, myRentPoint);
             //app.AddBike("Кама", 100, myRentPoint);
 
             Bike iChooseThisBike = app.GetBikes().FirstOrDefault(x => x.Name == "Кама");
@@ -72,8 +76,10 @@
             app.ReserveBike(client, iChooseThisBike, DateTime.UtcNow.AddDays(1));
 
             app.GetBikeInRent(client, iChooseThisBike, deposit);
-            //app.GetBikeInRent(client, iChooseThisBike, deposit);
 
+            bool iBrokeBike = true;
+            //app.GetBikeInRent(client, iChooseThisBike, deposit);
+            app.ReturnBike(iChooseThisBike, otherRentPoint, iBrokeBike);
             container.Dispose();
         }
     }

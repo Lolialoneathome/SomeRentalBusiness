@@ -46,9 +46,9 @@
 
 
 
-        public void AddBike(string name, decimal hourCost, RentPoint myRentPoint)
+        public void AddBike(string name, decimal hourCost, decimal cost, RentPoint myRentPoint)
         {
-            _bikeService.AddBike(name, hourCost);
+            _bikeService.AddBike(name, hourCost, cost);
             Bike currentBike = _bikeRepository.All().SingleOrDefault(x => x.Name == name);
             _bikeService.MoveBike(currentBike, myRentPoint);
         }
@@ -88,9 +88,9 @@
             _rentService.Take(client, bike, deposit);
         }
 
-        public void ReturnBike(Bike bike, RentPoint rentPoint)
+        public void ReturnBike(Bike bike, RentPoint rentPoint, bool IsBroken)
         {
-            _rentService.Return(bike, rentPoint);
+            _rentService.Return(bike, rentPoint, IsBroken);
         }
 
         public void ReserveBike(Client client, Bike bike, DateTime endTime)

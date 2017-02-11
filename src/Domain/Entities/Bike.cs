@@ -4,10 +4,13 @@
 
     public class Bike : IEntity
     {
-        protected internal Bike(string name, decimal hourCost)
+        protected internal Bike(string name, decimal hourCost, decimal cost)
         {
+            if (cost <= 0)
+                throw new ArgumentOutOfRangeException("Cannot create Bike with zero or negative cost");
             Rename(name);
             ChangeHourCost(hourCost);
+            Cost = cost;
         }
 //RANDOM COMMENT
 
@@ -24,6 +27,10 @@
                 return (RentPoint == null) ? false : true;
             }
         }
+
+        public bool IsBroken = false;
+
+        public decimal Cost { get; private set; }
 
         public RentPoint RentPoint { get; protected set; }
 

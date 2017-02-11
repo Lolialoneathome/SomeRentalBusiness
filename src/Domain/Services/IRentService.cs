@@ -7,6 +7,6 @@
     {
         void Take(Client client, Bike bike, Deposit deposit);
 
-        void Return(Bike bike, RentPoint rentPoint);
+        void Return(Bike bike, RentPoint rentPoint, bool IsBroken);
     }
 }
