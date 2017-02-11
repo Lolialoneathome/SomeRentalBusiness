@@ -66,13 +66,16 @@
             if (!IsFree)
                 throw new InvalidOperationException("Bike is not free");
 
+            RentPoint = null;
+
         }
 
-        protected internal void Return()
+        protected internal void Return(RentPoint rentPoint)
         {
             if (IsFree)
                 throw new InvalidOperationException("Bike is free");
 
+            RentPoint = rentPoint;
         }
     }
 }

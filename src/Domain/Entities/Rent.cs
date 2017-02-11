@@ -59,7 +59,7 @@
             EndedAt = DateTime.UtcNow;
             EndRentPoint = rentPoint;
             EndRentPoint.CashBox.PutMoney(Sum.Value);
-            Bike.Return();
+            Bike.Return(EndRentPoint);
             EndRentPoint.AddBike(Bike);
             if (StartRentPoint == EndRentPoint)
             {
