@@ -10,11 +10,12 @@
         private readonly IRepository<Bike> _repository;
         private readonly IBikeNameVerifier _bikeNameVerifier;
         private readonly IRepository<Rent> _rentRepository;
-
+        private readonly IRepository<Reserve> _reserveRepository;
 
         public BikeService(IRepository<Bike> repository, 
             IBikeNameVerifier bikeNameVerifier,
-            IRepository<Rent> rentRepository)
+            IRepository<Rent> rentRepository,
+            IRepository<Reserve> reserverepository)
         {
             if (repository == null)
                 throw new ArgumentNullException(nameof(repository));
@@ -28,6 +29,7 @@
             _repository = repository;
             _bikeNameVerifier = bikeNameVerifier;
             _rentRepository = rentRepository;
+            _reserveRepository = reserverepository;
         }
 
 
@@ -61,6 +63,10 @@
             Rent rent = _rentRepository.All().SingleOrDefault(x => x.Bike == bike);
             if (rent != null)
                 throw new InvalidOperationException("Bike is not free");
+
+            Reserve reserve = _reserveRepository.All().SingleOrDefault( (x) => (x.Bike == bike && x.Status == ReserveStatus.Wait));
+            if (reserve != null)
+                throw new InvalidOperationException("Bike reserved");
 
             bike.MoveTo(rentPoint);
         }

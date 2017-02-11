@@ -11,13 +11,14 @@
         private readonly IDepositCalculator _depositCalculator;
         private readonly IRentSumCalculate _rentSumCalculate;
         private readonly IRepository<Rent> _rentRepository;
-
+        private readonly IRepository<Reserve> _reserveRepository;
 
 
         public RentService(
             IDepositCalculator depositCalculator, 
             IRepository<Rent> rentRepository,
-            IRentSumCalculate rentSumCalculate)
+            IRentSumCalculate rentSumCalculate,
+            IRepository<Reserve> reserveRepository)
         {
             if (depositCalculator == null)
                 throw new ArgumentNullException(nameof(depositCalculator));
@@ -28,6 +29,7 @@
             _depositCalculator = depositCalculator;
             _rentRepository = rentRepository;
             _rentSumCalculate = rentSumCalculate;
+            _reserveRepository = reserveRepository;
         }
 
 
@@ -49,6 +51,20 @@
             if (!bike.IsFree)
                 throw new InvalidOperationException("Bike is not free");
 
+            if (bike.IsReserved)
+            {
+                Reserve reserve = _reserveRepository.All().SingleOrDefault(x => x.Bike == bike);
+
+                if (reserve.EndTime < DateTime.UtcNow)
+                {
+                    reserve.ExpireReserve();
+                }
+                else
+                {
+                    if (client != reserve.Client)
+                        throw new InvalidOperationException("Bike in reserved");
+                }
+            }
 
             if (deposit.Type == DepositTypes.Money)
             {

@@ -6,6 +6,7 @@
     using Domain.Entities.Deposits;
     using Domain.Repositories;
     using Domain.Services;
+    using System;
     using System.Linq;
 
     public class Program
@@ -58,6 +59,8 @@
             Employee myEmployee = app.CreateEmployee("Nya", "Nyan", "Nyanyan");
             RentPoint myRentPoint =  app.AddRentPoint(myEmployee);
             Client client = app.CreateClient("Keke", "Ke", "Kekekeke");
+            Client clientWhoWantTakeReservedBike = app.CreateClient("aaa", "a", "aaaaa");
+
             Deposit deposit = new MoneyDeposit(5000);
 
 
@@ -65,8 +68,11 @@
             //app.AddBike("Кама", 100, myRentPoint);
 
             Bike iChooseThisBike = app.GetBikes().FirstOrDefault(x => x.Name == "Кама");
+
+            app.ReserveBike(client, iChooseThisBike, DateTime.UtcNow.AddDays(1));
+
             app.GetBikeInRent(client, iChooseThisBike, deposit);
-            app.GetBikeInRent(client, iChooseThisBike, deposit);
+            //app.GetBikeInRent(client, iChooseThisBike, deposit);
 
             container.Dispose();
         }

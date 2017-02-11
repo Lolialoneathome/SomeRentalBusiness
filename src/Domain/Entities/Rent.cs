@@ -42,8 +42,6 @@
 
         public readonly decimal HourCost;
 
-
-
         protected internal void End(RentPoint rentPoint, DateTime endTime, decimal sum)
         {
             if (rentPoint == null)
