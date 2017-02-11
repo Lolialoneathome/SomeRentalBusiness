@@ -9,13 +9,15 @@
     public class RentService : IRentService
     {
         private readonly IDepositCalculator _depositCalculator;
+        private readonly IRentSumCalculate _rentSumCalculate;
         private readonly IRepository<Rent> _rentRepository;
 
 
 
         public RentService(
             IDepositCalculator depositCalculator, 
-            IRepository<Rent> rentRepository)
+            IRepository<Rent> rentRepository,
+            IRentSumCalculate rentSumCalculate)
         {
             if (depositCalculator == null)
                 throw new ArgumentNullException(nameof(depositCalculator));
@@ -25,6 +27,7 @@
 
             _depositCalculator = depositCalculator;
             _rentRepository = rentRepository;
+            _rentSumCalculate = rentSumCalculate;
         }
 
 
@@ -81,7 +84,10 @@
             if (rent == null)
                 throw new InvalidOperationException("Rent not found");
 
-            rent.End(rentPoint);
+            DateTime endTime = DateTime.UtcNow;
+            decimal sum = _rentSumCalculate.Calcilate(rent.StartedAt, endTime, rent.HourCost);
+
+            rent.End(rentPoint, endTime, sum);
         }
     }
 }

@@ -34,11 +34,6 @@
         
         public bool IsEnded => EndedAt.HasValue;
 
-        // TODO Сделать нормальный читаемый геттер
-        public decimal? Sum => IsEnded
-            ? (decimal?) Math.Round(Math.Ceiling((EndedAt.Value - StartedAt).TotalHours) * (double) HourCost, 2)
-            : null;
-
         public readonly Client Client;
 
         public readonly Bike Bike;
@@ -49,16 +44,16 @@
 
 
 
-        protected internal void End(RentPoint rentPoint)
+        protected internal void End(RentPoint rentPoint, DateTime endTime, decimal sum)
         {
             if (rentPoint == null)
                 throw new ArgumentNullException(nameof(rentPoint));
             if (IsEnded)
                 throw new InvalidOperationException("Rent is already ended");
 
-            EndedAt = DateTime.UtcNow;
+            EndedAt = endTime;
             EndRentPoint = rentPoint;
-            EndRentPoint.CashBox.PutMoney(Sum.Value);
+            EndRentPoint.CashBox.PutMoney(sum);
             Bike.Return(EndRentPoint);
             EndRentPoint.AddBike(Bike);
             if (StartRentPoint == EndRentPoint)
@@ -74,8 +69,7 @@
                 StartRentPoint.Safe.MoveMoneyToCashBox(StartRentPoint.CashBox, ((MoneyDeposit)Deposit).Sum);
 
             }
-
-            
+          
         }
     }
 }
