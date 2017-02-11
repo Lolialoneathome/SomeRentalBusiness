@@ -24,8 +24,6 @@
             HourCost = bike.HourCost;
         }
 
-
-
         public readonly RentPoint StartRentPoint;
 
         public readonly DateTime StartedAt;

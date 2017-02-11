@@ -8,20 +8,22 @@
         {
             Rename(name);
             ChangeHourCost(hourCost);
-            IsFree = true;
         }
 //RANDOM COMMENT
-
 
         public string Name { get; protected set; }
 
         public decimal HourCost { get; protected set; }
 
-        public bool IsFree { get; protected set; }
+        public bool IsFree
+        {
+            get
+            {
+                return (RentPoint == null) ? true : false;
+            }
+        }
 
         public RentPoint RentPoint { get; protected set; }
-
-        
 
         protected internal void Rename(string name)
         {

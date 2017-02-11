@@ -18,6 +18,9 @@
             if (safe == null)
                 throw new ArgumentNullException(nameof(safe));
 
+            if (cashbox == null)
+                throw new ArgumentNullException(nameof(cashbox));
+
             Employee = employee;
             Safe = safe;
             CashBox = cashbox;
