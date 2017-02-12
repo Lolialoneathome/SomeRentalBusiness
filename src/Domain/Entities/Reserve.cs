@@ -22,7 +22,8 @@ namespace Domain.Entities
             if (endTime == null)
                 throw new ArgumentNullException(nameof(endTime));
 
-
+            if (bike.IsReserved)
+                throw new InvalidOperationException("Sorry, this bike reserved. Please, choose another");
             Client = client;
             Bike = bike;
             Bike.IsReserved = true;
