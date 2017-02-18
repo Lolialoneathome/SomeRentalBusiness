@@ -3,6 +3,8 @@
     using App;
     using Autofac;
     using Autofac.TypedFactory;
+    using Domain.Commands;
+    using Domain.Commands.ConcreteCommand;
     using Domain.Entities;
     using Domain.Entities.Deposits;
     using Domain.Queries;
@@ -61,9 +63,9 @@
             containerBuilder.RegisterTypedFactory<IQueryBuilder>().InstancePerLifetimeScope();
             containerBuilder.RegisterTypedFactory<IQueryFactory>().InstancePerLifetimeScope();
 
-            //containerBuilder.RegisterAssemblyTypes(typeof(CreateBikeCommand).GetTypeInfo().Assembly).AsClosedTypesOf(typeof(ICommand<>));
-            //containerBuilder.RegisterType<CommandBuilder>().As<ICommandBuilder>().InstancePerLifetimeScope();
-            //containerBuilder.RegisterTypedFactory<ICommandFactory>().InstancePerLifetimeScope();
+            containerBuilder.RegisterAssemblyTypes(typeof(AddRentPointCommand).GetTypeInfo().Assembly).AsClosedTypesOf(typeof(ICommand<>));
+            containerBuilder.RegisterType<CommandBuilder>().As<ICommandBuilder>().InstancePerLifetimeScope();
+            containerBuilder.RegisterTypedFactory<ICommandFactory>().InstancePerLifetimeScope();
 
             containerBuilder.RegisterType<App>();
 

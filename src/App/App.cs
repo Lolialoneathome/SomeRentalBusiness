@@ -11,6 +11,7 @@
     using Domain.Queries.Criteries;
     using Domain.Commands;
     using Domain.Queries.Criterion;
+    using Domain.Commands.CommandContext;
 
     public class App
     {
@@ -41,7 +42,8 @@
             IRentService rentService,
             IRentPointService rentPointService,
             IReserveService reserveService,
-            IQueryBuilder queryBuilder)
+            IQueryBuilder queryBuilder,
+            ICommandBuilder commandBuilder)
         {
             _clientRepository = clientRepository;
             _employeeRepository = employeeRepository;
@@ -53,6 +55,7 @@
             _rentService = rentService;
             _reserveService = reserveService;
             _queryBuilder = queryBuilder;
+            _commandBuilder = commandBuilder;
         }
 
 
@@ -97,18 +100,43 @@
             ;
         }
 
+        public Bike GetBikeByName(string name)
+        {
+            return _queryBuilder
+                .For<Bike>()
+                .With(new BikeNameCriterion
+                {
+                    Name = name
+                });
+        }
 
         public void AddBike(string name, decimal hourCost, decimal cost, RentPoint myRentPoint)
         {
+            _commandBuilder.Execute( new AddBikeCommandContext
+            {
+                Name = name,
+                Cost = cost,
+                HourCost = hourCost
+            });
 
-            _bikeService.AddBike(name, hourCost, cost);
-            Bike currentBike = _bikeRepository.All().SingleOrDefault(x => x.Name == name);
-            _bikeService.MoveBike(currentBike, myRentPoint);
+            Bike currentBike = GetBikeByName(name);
+
+            _commandBuilder.Execute(new MoveBikeCommandContext
+            {
+                Bike = currentBike,
+                RentPoint = myRentPoint
+            });
         }
 
         public RentPoint AddRentPoint(Employee myEmployee)
         {
-            return _rentPointService.AddRentPoint(myEmployee);
+            var context = new AddRentPointCommandContext
+            {
+                Employee = myEmployee
+            };
+            _commandBuilder.Execute(context);
+
+            return context.CreatedRentPoint;
         }
 
         public Employee CreateEmployee(string surname, string firstname, string patronymic)
@@ -116,7 +144,6 @@
             Employee employee = new Employee(surname, firstname, patronymic);
             _employeeRepository.Add(employee);
             return employee;
-            //_employeeService.AddEmployee(surname, firstname, patronymic);
         }
 
         public Client CreateClient(string surname, string firstname, string patronymic)
@@ -128,12 +155,23 @@
 
         public void GetBikeInRent(Client client, Bike bike, Deposit deposit)
         {
-            _rentService.Take(client, bike, deposit);
+            _commandBuilder.Execute(new GetBikeInRentCommandContext
+            {
+                Client = client,
+                Bike = bike,
+                Deposit = deposit
+            });
         }
 
-        public void ReturnBike(Bike bike, RentPoint rentPoint, bool IsBroken)
+        public void ReturnBike(Bike bike, RentPoint rentPoint, bool isBroken)
         {
-            _rentService.Return(bike, rentPoint, IsBroken);
+            _commandBuilder.Execute(
+                new ReturnBikeCommandContext
+                {
+                    Bike = bike,
+                    RentPoint = rentPoint,
+                    IsBroken = isBroken
+                });
         }
 
         public void ReserveBike(Client client, Bike bike, DateTime endTime)
