@@ -20,18 +20,18 @@
         private readonly IRepository<Client> _clientRepository;
         private readonly IRepository<Employee> _employeeRepository;
         private readonly IRepository<RentPoint> _rentPointRepository;
-        private readonly IRepository<Reserve> _reserveRepository;
+        private readonly IReserveService _reserveService;
 
         public App(
             IRepository<Client> clientRepository,
             IRepository<Employee> employeeRepository,
             IRepository<Bike> bikeRepository,
             IRepository<RentPoint> rentPointRepository,
-            IRepository<Reserve> reserveRepository,
             IBikeService bikeService,
             IEmployeeService employeeService,
             IRentService rentService,
-            IRentPointService rentPointService)
+            IRentPointService rentPointService,
+            IReserveService reserveService)
         {
             _clientRepository = clientRepository;
             _employeeRepository = employeeRepository;
@@ -41,7 +41,7 @@
             _employeeService = employeeService;
             _rentPointService = rentPointService;
             _rentService = rentService;
-            _reserveRepository = reserveRepository;
+            _reserveService = reserveService;
         }
 
 
@@ -95,8 +95,7 @@
 
         public void ReserveBike(Client client, Bike bike, DateTime endTime)
         {
-            Reserve reserve = new Reserve(client, bike, endTime);
-            _reserveRepository.Add(reserve);
+            _reserveService.ReserveBike(bike, client, endTime);
         }
     }
 }

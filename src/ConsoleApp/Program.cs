@@ -48,6 +48,10 @@
                 .RegisterType<RentSumCalculate>()
                 .As<IRentSumCalculate>();
 
+            containerBuilder
+                .RegisterType<ReserveService>()
+                .As<IReserveService>();
+
             containerBuilder.RegisterType<App>();
 
             IContainer container = containerBuilder.Build();

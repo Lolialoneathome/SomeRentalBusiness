@@ -18,8 +18,6 @@
 
         public decimal HourCost { get; protected set; }
 
-        public bool IsReserved = false;
-
         public bool IsFree
         {
             get

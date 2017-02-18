@@ -6,12 +6,26 @@ namespace Domain.Entities
     {
         public readonly Client Client;
         public readonly Bike Bike;
-        public DateTime EndTime { get; protected set; }
         public readonly DateTime StartDate;
-        public ReserveStatus Status { get; private set; }
+        public readonly DateTime ToTime;
 
-        //public. Хочу спать.
-        public Reserve(Client client, Bike bike, DateTime endTime)
+        public DateTime RealEndTime { get; protected set; }
+
+        public ReserveStatus Status
+        {
+            get
+            {
+                if (RealEndTime != null)
+                    return ReserveStatus.SuccessEnded;
+
+                if (DateTime.Now > ToTime)
+                    return ReserveStatus.Failed;
+
+                return ReserveStatus.Wait;
+            }
+        }
+
+        protected internal Reserve(Client client, Bike bike, DateTime toTime)
         {
             if (client == null)
                 throw new ArgumentNullException(nameof(client));
@@ -19,30 +33,18 @@ namespace Domain.Entities
             if (bike == null)
                 throw new ArgumentNullException(nameof(bike));
 
-            if (endTime == null)
-                throw new ArgumentNullException(nameof(endTime));
+            if (toTime == null)
+                throw new ArgumentNullException(nameof(toTime));
 
-            if (bike.IsReserved)
-                throw new InvalidOperationException("Sorry, this bike reserved. Please, choose another");
             Client = client;
             Bike = bike;
-            Bike.IsReserved = true;
-            EndTime = endTime;
+            ToTime = toTime;
             StartDate = DateTime.UtcNow;
-            Status = ReserveStatus.Wait;
         }
 
         public void EndReserve()
         {
-            Status = ReserveStatus.SuccessEnded;
-            Bike.IsReserved = false;
-            EndTime = DateTime.UtcNow;
-        }
-
-        public void ExpireReserve()
-        {
-            Status = ReserveStatus.Failed;
-            Bike.IsReserved = false;
+            RealEndTime = DateTime.UtcNow;
         }
 
     }

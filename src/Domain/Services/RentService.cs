@@ -12,13 +12,14 @@
         private readonly IRentSumCalculate _rentSumCalculate;
         private readonly IRepository<Rent> _rentRepository;
         private readonly IRepository<Reserve> _reserveRepository;
-
+        private readonly IReserveService _reserveService;
 
         public RentService(
             IDepositCalculator depositCalculator, 
             IRepository<Rent> rentRepository,
             IRentSumCalculate rentSumCalculate,
-            IRepository<Reserve> reserveRepository)
+            IRepository<Reserve> reserveRepository,
+            IReserveService reserveService)
         {
             if (depositCalculator == null)
                 throw new ArgumentNullException(nameof(depositCalculator));
@@ -30,6 +31,7 @@
             _rentRepository = rentRepository;
             _rentSumCalculate = rentSumCalculate;
             _reserveRepository = reserveRepository;
+            _reserveService = reserveService;
         }
 
 
@@ -54,21 +56,13 @@
             if (bike.IsBroken)
                 throw new Exception("Sorry, this bike is broken. Please, choose another.");
 
-            if (bike.IsReserved)
+            if (_reserveService.IsActiveReserveOnBike(bike))
             {
-                Reserve reserve = _reserveRepository.All().SingleOrDefault(x => x.Bike == bike);
-
-                if (reserve.EndTime < DateTime.UtcNow)
-                {
-                    reserve.ExpireReserve();
-                }
+                Reserve reserve = _reserveRepository.All().SingleOrDefault(x => (x.Bike == bike && x.Status == ReserveStatus.Wait) );
+                if (client != reserve.Client)
+                    throw new InvalidOperationException("Bike in reserved");
                 else
-                {
-                    if (client != reserve.Client)
-                        throw new InvalidOperationException("Bike in reserved");
-                    else
-                        reserve.EndReserve();
-                }
+                    reserve.EndReserve();
             }
 
             if (deposit.Type == DepositTypes.Money)
