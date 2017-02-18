@@ -8,5 +8,6 @@ namespace Domain.Services
         void ReserveBike(Bike bike, Client client, DateTime toTime);
 
         bool IsActiveReserveOnBike(Bike bike);
+        Reserve GetOpenReserveByBike(Bike bike);
     }
 }

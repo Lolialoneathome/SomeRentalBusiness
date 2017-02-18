@@ -7,6 +7,10 @@
     using Domain.Services;
     using Domain.Entities.Deposits;
     using System.Linq;
+    using Domain.Queries;
+    using Domain.Queries.Criteries;
+    using Domain.Commands;
+    using Domain.Queries.Criterion;
 
     public class App
     {
@@ -22,6 +26,11 @@
         private readonly IRepository<RentPoint> _rentPointRepository;
         private readonly IReserveService _reserveService;
 
+        private readonly IQueryBuilder _queryBuilder;
+        private readonly ICommandBuilder _commandBuilder;
+
+        
+
         public App(
             IRepository<Client> clientRepository,
             IRepository<Employee> employeeRepository,
@@ -31,7 +40,8 @@
             IEmployeeService employeeService,
             IRentService rentService,
             IRentPointService rentPointService,
-            IReserveService reserveService)
+            IReserveService reserveService,
+            IQueryBuilder queryBuilder)
         {
             _clientRepository = clientRepository;
             _employeeRepository = employeeRepository;
@@ -42,12 +52,55 @@
             _rentPointService = rentPointService;
             _rentService = rentService;
             _reserveService = reserveService;
+            _queryBuilder = queryBuilder;
         }
 
+
+        public IEnumerable<Bike> GetBikes()
+        {
+            return _queryBuilder
+                .For<IEnumerable<Bike>>()
+                .With(
+                new EmptyCriterion());
+        }
+
+        public IEnumerable<RentPoint> GetRentPoints()
+        {
+            return _queryBuilder
+                .For<IEnumerable<RentPoint>>()
+                .With(new EmptyCriterion()
+                )
+            ;
+        }
+
+        public IEnumerable<Bike> GetAllFreeBikesOnRentPoint(RentPoint rentPoint)
+        {
+            return _queryBuilder
+                .For<IEnumerable<Bike>>()
+                .With(new RentPointCriterion
+                {
+                    RentPoint = rentPoint
+                }
+                )
+            ;
+        }
+
+        public Reserve GetOpenReserveByBike(Bike bike)
+        {
+            return _queryBuilder
+                .For<Reserve>()
+                .With(new ByBikeCriterion
+                {
+                    Bike = bike
+                }
+                )
+            ;
+        }
 
 
         public void AddBike(string name, decimal hourCost, decimal cost, RentPoint myRentPoint)
         {
+
             _bikeService.AddBike(name, hourCost, cost);
             Bike currentBike = _bikeRepository.All().SingleOrDefault(x => x.Name == name);
             _bikeService.MoveBike(currentBike, myRentPoint);
@@ -56,16 +109,6 @@
         public RentPoint AddRentPoint(Employee myEmployee)
         {
             return _rentPointService.AddRentPoint(myEmployee);
-        }
-
-        public IEnumerable<Bike> GetBikes()
-        {
-            return _bikeRepository.All();
-        }
-
-        public IEnumerable<RentPoint> GetRentPoints()
-        {
-            return _rentPointRepository.All();
         }
 
         public Employee CreateEmployee(string surname, string firstname, string patronymic)

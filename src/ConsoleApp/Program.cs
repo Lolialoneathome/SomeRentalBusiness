@@ -2,12 +2,16 @@
 {
     using App;
     using Autofac;
+    using Autofac.TypedFactory;
     using Domain.Entities;
     using Domain.Entities.Deposits;
+    using Domain.Queries;
+    using Domain.Queries.Criteries;
     using Domain.Repositories;
     using Domain.Services;
     using System;
     using System.Linq;
+    using System.Reflection;
 
     public class Program
     {
@@ -52,6 +56,15 @@
                 .RegisterType<ReserveService>()
                 .As<IReserveService>();
 
+            containerBuilder.RegisterAssemblyTypes(typeof(RentPointCriterion).GetTypeInfo().Assembly).AsClosedTypesOf(typeof(IQuery<,>));
+            containerBuilder.RegisterGeneric(typeof(QueryFor<>)).As(typeof(IQueryFor<>));
+            containerBuilder.RegisterTypedFactory<IQueryBuilder>().InstancePerLifetimeScope();
+            containerBuilder.RegisterTypedFactory<IQueryFactory>().InstancePerLifetimeScope();
+
+            //containerBuilder.RegisterAssemblyTypes(typeof(CreateBikeCommand).GetTypeInfo().Assembly).AsClosedTypesOf(typeof(ICommand<>));
+            //containerBuilder.RegisterType<CommandBuilder>().As<ICommandBuilder>().InstancePerLifetimeScope();
+            //containerBuilder.RegisterTypedFactory<ICommandFactory>().InstancePerLifetimeScope();
+
             containerBuilder.RegisterType<App>();
 
             IContainer container = containerBuilder.Build();
@@ -73,17 +86,32 @@
 
 
             app.AddBike("Кама", 50, 4500, myRentPoint);
+            app.AddBike("Rainbow Dash", 50, 5000, myRentPoint);
+            app.AddBike("Rainbow Crash", 60, 4700, myRentPoint);
             //app.AddBike("Кама", 100, myRentPoint);
 
             Bike iChooseThisBike = app.GetBikes().FirstOrDefault(x => x.Name == "Кама");
+            
 
             app.ReserveBike(client, iChooseThisBike, DateTime.UtcNow.AddDays(1));
 
-            app.GetBikeInRent(client, iChooseThisBike, deposit);
+            //app.GetBikeInRent(client, iChooseThisBike, deposit);
 
             bool iBrokeBike = true;
-            //app.GetBikeInRent(client, iChooseThisBike, deposit);
+            app.GetBikeInRent(client, iChooseThisBike, deposit);
             app.ReturnBike(iChooseThisBike, otherRentPoint, iBrokeBike);
+
+            app.GetRentPoints();
+
+            app.GetAllFreeBikesOnRentPoint(myRentPoint);
+
+            Bike likeItBike = app.GetBikes().FirstOrDefault(x => x.Name == "Rainbow Dash");
+            app.ReserveBike(client, likeItBike, DateTime.UtcNow.AddDays(1));
+
+            app.GetOpenReserveByBike(likeItBike);
+
+            app.GetBikes();
+
             container.Dispose();
         }
     }

@@ -9,9 +9,10 @@
     "Autofac": "4.3.0",
     "Domain": "1.0.0-*",
     "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
-    }
+        "type": "platform",
+        "version": "1.0.1"
+    },
+    "System.Reflection.Emit": "4.0.1"
   },
 
   "frameworks": {

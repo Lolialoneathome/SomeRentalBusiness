@@ -48,17 +48,5 @@
 
             _bikes.Remove(bike);
         }
-
-        //protected internal void SetEmployee(Employee employee)
-        //{
-        //    if (employee == null)
-        //        throw new ArgumentNullException(nameof(employee));
-
-        //    if (Employee != null)
-        //        throw new InvalidOperationException("Rent point has employee yet");
-
-        //    Employee = employee;
-        //}
-
     }
 }

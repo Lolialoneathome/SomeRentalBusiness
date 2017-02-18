@@ -9,7 +9,7 @@ namespace Domain.Entities
         public readonly DateTime StartDate;
         public readonly DateTime ToTime;
 
-        public DateTime RealEndTime { get; protected set; }
+        public DateTime? RealEndTime { get; protected set; }
 
         public ReserveStatus Status
         {

@@ -43,5 +43,10 @@ namespace Domain.Services
 
             return false;
         }
+
+        public Reserve GetOpenReserveByBike(Bike bike)
+        {
+            return _reserveRepository.All().SingleOrDefault(x => (x.Bike == bike && x.Status == ReserveStatus.Wait));
+        }
     }
 }
