@@ -1,10 +1,13 @@
-﻿namespace Domain.Entities
-{
-    using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-    public class Client : IEntity
+namespace Domain.Entities.HumanEntity
+{
+    public abstract class Human
     {
-        public Client(string surname, string firstname, string patronymic)
+        public Human(string surname, string firstname, string patronymic)
         {
             if (string.IsNullOrWhiteSpace(surname))
                 throw new ArgumentNullException(nameof(surname));
@@ -21,7 +24,7 @@
         }
 
 
-        
+
         public readonly string Surname;
 
         public readonly string FirstName;

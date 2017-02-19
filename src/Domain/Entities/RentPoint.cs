@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Deposits;
+    using HumanEntity;
 
     public class RentPoint : IEntity
     {

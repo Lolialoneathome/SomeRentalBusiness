@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.HumanEntity;
 using Domain.Repositories;
 using System;
 using System.Collections.Generic;

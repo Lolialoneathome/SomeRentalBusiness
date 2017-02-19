@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Deposits;
+using Domain.Entities.HumanEntity;
 
 namespace Domain.Commands.CommandContext
 {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities.HumanEntity;
+using System;
 
 namespace Domain.Entities
 {

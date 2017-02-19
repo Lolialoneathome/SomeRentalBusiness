@@ -7,6 +7,7 @@
     using Domain.Commands.ConcreteCommand;
     using Domain.Entities;
     using Domain.Entities.Deposits;
+    using Domain.Entities.HumanEntity;
     using Domain.Queries;
     using Domain.Queries.Criteries;
     using Domain.Repositories;
@@ -104,7 +105,7 @@
             app.ReturnBike(iChooseThisBike, otherRentPoint, iBrokeBike);
 
             app.GetRentPoints();
-
+            
             app.GetAllFreeBikesOnRentPoint(myRentPoint);
 
             Bike likeItBike = app.GetBikes().FirstOrDefault(x => x.Name == "Rainbow Dash");
@@ -113,6 +114,7 @@
             app.GetOpenReserveByBike(likeItBike);
 
             app.GetBikes();
+            Console.ReadLine();
 
             container.Dispose();
         }

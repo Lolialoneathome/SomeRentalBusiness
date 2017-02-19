@@ -2,6 +2,7 @@
 {
     using System;
     using Deposits;
+    using HumanEntity;
 
     public class Rent : IEntity
     {

@@ -5,6 +5,7 @@
     using Entities;
     using Entities.Deposits;
     using Repositories;
+    using Entities.HumanEntity;
 
     public class RentService : IRentService
     {

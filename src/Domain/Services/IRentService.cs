@@ -2,6 +2,7 @@
 {
     using Entities;
     using Entities.Deposits;
+    using Entities.HumanEntity;
 
     public interface IRentService
     {
