@@ -10,10 +10,10 @@
     @using (Html.BeginForm())
     {
         <div class="form-horizontal">
-            <h4>Добавление новой точки</h4>
+            <h4>Редактирование точки</h4>
             <hr />
             <div class="form-group">
-                <div class = "control-label col-md-2"> Имя точки </div>
+                <div class="control-label col-md-2"> Имя точки </div>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
@@ -23,13 +23,13 @@
                     @Html.EditorFor(model => model.Adress, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
-                <div class="control-label col-md-2"> Сколько денег положим в кассу </div>
+                <div class="control-label col-md-2"> Денег в кассе </div>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Money, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
             <div class="form-group">
-                <p>Нужно добавить работника!</p>
+                <p>Данные работника</p>
 
                 <div class="control-label col-md-2"> Имя работника </div>
                 <div class="col-md-10">
@@ -41,16 +41,43 @@
                     @Html.EditorFor(model => model.EmployeeSurname, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
-                <div class="control-label col-md-2"> Отчество работника </div>
+                <div class="control-label col-md-2"> Отество работника </div>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.EmployeePatronymic, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
-            </div>            
+            </div>
+
+
+            <table>
+                <tr>
+                    <th> Имя </th>
+                    <th> Стоимость </th>
+                    <th> Стоимость часа</th>
+                </tr>
+                @foreach (var item in Model.Bikes)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HourCost)
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <div>
+                @Html.ActionLink("Добавить велосипед", "Create", "Bike", new { adress = Model.Adress });
+            </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Сохранить" class="btn btn-default" />
                 </div>
             </div>
         </div>

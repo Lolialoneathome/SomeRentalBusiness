@@ -14,8 +14,6 @@
 
         public string Name { get; protected set; }
 
-        
-
         public RentPoint(string name, string adress, Employee employee, Safe safe, CashBox cashbox)
         {
             if (employee == null)

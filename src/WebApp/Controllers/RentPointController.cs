@@ -12,6 +12,7 @@ using Domain.Queries.Criterion;
 using InfrastructureDb.Commands.CommandContext;
 using WebApp.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Domain.Queries.Criteries;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,16 +34,11 @@ namespace WebApp.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            _commandBuilder.Execute(
-                new LoadRentPointsCommandContext());
-           
             return View();
         }
 
         public IActionResult List()
         {
-            _commandBuilder.Execute(
-                new LoadRentPointsCommandContext());
 
             var allRentPoints = _queryBuilder
                 .For<IEnumerable<RentPoint>>()
@@ -63,9 +59,9 @@ namespace WebApp.Controllers
             _commandBuilder.Execute(
                 new AddRentPointCommandContext
                 {
-                    Name = "nu",
-                    Adress = "hz",
-                    Employee = new Employee("s", "aa", "fff")
+                    Name = vm.Name,
+                    Adress = vm.Adress,
+                    Employee = new Employee(vm.EmployeeName, vm.EmployeeSurname, vm.EmployeePatronymic)
                 });
 
             var allRentPoints = _queryBuilder
@@ -76,6 +72,18 @@ namespace WebApp.Controllers
             return RedirectToAction("List");
         }
 
+        public IActionResult Edit(string adress)
+        {
+            RentPoint rp = _queryBuilder
+                .For<RentPoint>()
+                .With
+                (new AdressCriterion
+                {
+                    Adress = adress
+                });
+            var vm = new RentPointViewModel(rp);
+            return View(vm);
+        }
 
     }
 }

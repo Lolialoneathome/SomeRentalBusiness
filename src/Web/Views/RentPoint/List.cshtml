@@ -16,6 +16,7 @@
             <th> Имя точки </th>
             <th> Адрес </th>
             <th> Закрепленный работник </th>
+            <th> Денег в кассе </th>
         </tr>
         @foreach (var item in Model)
         {
@@ -29,12 +30,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Employee.FullName)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CashBox.Money)
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new { adress = item.Adress })
+                </td>
+                <td>
+                    @Html.ActionLink("Удалить", "Delete", item)
+                </td>
             </tr>
         }
     </table>
 
     <div>
-        @Html.ActionLink("Create", "Create");
+        @Html.ActionLink("Создать точку", "Create");
     </div>
 
 }
