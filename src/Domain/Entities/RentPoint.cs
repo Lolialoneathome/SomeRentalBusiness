@@ -10,8 +10,13 @@
     public class RentPoint : IEntity
     {
         protected readonly IList<Bike> _bikes = new List<Bike>();
+        public readonly string Adress;
 
-        public RentPoint(Employee employee, Safe safe, CashBox cashbox)
+        public string Name { get; protected set; }
+
+        
+
+        public RentPoint(string name, string adress, Employee employee, Safe safe, CashBox cashbox)
         {
             if (employee == null)
                 throw new ArgumentNullException(nameof(employee));
@@ -22,6 +27,14 @@
             if (cashbox == null)
                 throw new ArgumentNullException(nameof(cashbox));
 
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            if (adress == null)
+                throw new ArgumentNullException(nameof(adress));
+
+            Name = name;
+            Adress = adress;
             Employee = employee;
             Safe = safe;
             CashBox = cashbox;

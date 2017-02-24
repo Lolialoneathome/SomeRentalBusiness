@@ -23,18 +23,15 @@ namespace Domain.Services
 
         }
 
-        public RentPoint AddRentPoint(Employee employee, decimal money)
+        public RentPoint AddRentPoint(string name, string adress, Employee employee, decimal money)
         {
-            if (employee == null)
-                throw new ArgumentNullException(nameof(employee));
-
             if (money < 0)
                 throw new ArgumentOutOfRangeException(nameof(money));
 
             CashBox cashbox = new CashBox(money);
             Safe safe = new Safe();
 
-            RentPoint rentPoint = new RentPoint(employee, safe, cashbox);
+            RentPoint rentPoint = new RentPoint(name, adress, employee, safe, cashbox);
             _rentPointRepository.Add(rentPoint);
 
             return rentPoint;

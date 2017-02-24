@@ -9,6 +9,8 @@ namespace Domain.Commands.CommandContext
 {
     public class AddRentPointCommandContext : ICommandContext
     {
+        public string Name { get; set; }
+        public string Adress { get; set; }
         public Employee Employee { get; set; }
 
 

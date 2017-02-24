@@ -14,7 +14,7 @@ namespace Domain.Commands.ConcreteCommand
 
         public void Execute(AddRentPointCommandContext commandContext)
         {
-            commandContext.CreatedRentPoint = _rentPointService.AddRentPoint(commandContext.Employee);
+            commandContext.CreatedRentPoint = _rentPointService.AddRentPoint(commandContext.Name, commandContext.Adress, commandContext.Employee);
         }
     }
 }

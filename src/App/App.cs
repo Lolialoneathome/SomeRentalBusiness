@@ -110,10 +110,12 @@
             });
         }
 
-        public RentPoint AddRentPoint(Employee myEmployee)
+        public RentPoint AddRentPoint(string name, string adress, Employee myEmployee)
         {
             var context = new AddRentPointCommandContext
             {
+                Name = name,
+                Adress = adress,
                 Employee = myEmployee
             };
             _commandBuilder.Execute(context);

@@ -1,0 +1,16 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IEnumerable<Domain.Entities.RentPoint>
+@{
+    Layout = "_Layout";
+
+    <p> Привет! Это Index! </p>
+
+    <div>
+        @Html.ActionLink("Показать точки проката", "List");
+    </div>
+
+}
+

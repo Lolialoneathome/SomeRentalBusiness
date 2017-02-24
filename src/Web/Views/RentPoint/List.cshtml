@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IEnumerable<Domain.Entities.RentPoint>
+@{
+    Layout = "_Layout";
+
+    <table>
+        <tr>
+            <th> Имя точки </th>
+            <th> Адрес </th>
+            <th> Закрепленный работник </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.FullName)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div>
+        @Html.ActionLink("Create", "Create");
+    </div>
+
+}
+

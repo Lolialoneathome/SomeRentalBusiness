@@ -77,10 +77,10 @@
             App app = container.Resolve<App>();
 
             Employee myEmployee = app.CreateEmployee("Nya", "Nyan", "Nyanyan");
-            RentPoint myRentPoint =  app.AddRentPoint(myEmployee);
+            RentPoint myRentPoint =  app.AddRentPoint("rp1", "adress1", myEmployee);
 
             Employee otherEmployee = app.CreateEmployee("otherNya", "otherNyan", "otherNyanyan");
-            RentPoint otherRentPoint = app.AddRentPoint(otherEmployee);
+            RentPoint otherRentPoint = app.AddRentPoint("rp2", "adress2", otherEmployee);
 
             Client client = app.CreateClient("Keke", "Ke", "Kekekeke");
             Client clientWhoWantTakeReservedBike = app.CreateClient("aaa", "a", "aaaaa");
