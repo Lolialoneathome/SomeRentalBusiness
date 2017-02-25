@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Domain.Entities.Bike>
+@{
+    Layout = "_Layout";
+
+    <table>
+        <tr>
+            <th> Имя велосипеда </th>
+            <th> Адрес точки </th>
+            <th> Свободен ли </th>
+            <th> Сломан </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RentPoint.Adress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsFree)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsBroken)
+                </td>
+            </tr>
+        }
+    </table>
+
+    <div>
+        @Html.ActionLink("Посмотреть точки", "List", "RentPoint");
+    </div>
+
+}
+

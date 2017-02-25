@@ -9,6 +9,7 @@ using Domain.Commands;
 using Domain.Commands.CommandContext;
 using Domain.Entities;
 using Domain.Queries.Criteries;
+using Domain.Queries.Criterion;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,10 +29,14 @@ namespace WebApp.Controllers
             _commandBuilder = commandBuilder;
         }
 
-        // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult List()
         {
-            return View();
+            var allBikes = _queryBuilder
+                .For<IEnumerable<Bike>>()
+                .With(new EmptyCriterion()
+                );
+
+            return View(allBikes);
         }
 
         public IActionResult Create(string adress)
