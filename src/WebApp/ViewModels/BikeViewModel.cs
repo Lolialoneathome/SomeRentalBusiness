@@ -9,11 +9,10 @@ namespace WebApp.ViewModels
     {
         public string RentPointAdress { get; set; }
         public string Name { get; set; }
-        public string Cost { get; set; }
-        public string HourCost { get; set; }
-        public BikeViewModel(string rpAdress)
+        public decimal Cost { get; set; }
+        public decimal HourCost { get; set; }
+        public BikeViewModel()
         {
-            RentPointAdress = rpAdress;
         }
 
     }
