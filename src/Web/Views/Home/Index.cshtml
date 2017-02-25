@@ -2,4 +2,14 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    <p> Привет! Эту страницу не стоит открывать два раза... </p>
+
+    <div>
+        @Html.ActionLink("Показать точки проката", "List", "RentPoint");
+    </div>
+
+    <div>
+        @Html.ActionLink("Показать все велики", "List", "Bike");
+    </div>
+
 }

@@ -3,6 +3,7 @@ using Domain.Commands.CommandContext;
 using Domain.Entities;
 using Domain.Entities.HumanEntity;
 using Domain.Queries;
+using Domain.Queries.Criteries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,27 @@ namespace InfrastructureDb.Loaders
             };
 
             _commandBuilder.Execute(context);
+
+
+            _commandBuilder.Execute(new AddBikeCommandContext
+            {
+                Name = "Raindow Crash",
+                Cost = 10000,
+                HourCost = 100
+            });
+
+            Bike currentBike = _queryBuilder
+                .For<Bike>()
+                .With(new BikeNameCriterion
+                {
+                    Name = "Raindow Crash"
+                });
+
+            _commandBuilder.Execute(new MoveBikeCommandContext
+            {
+                Bike = currentBike,
+                RentPoint = context.CreatedRentPoint
+            });
 
 
 

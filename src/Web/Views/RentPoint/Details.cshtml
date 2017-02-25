@@ -1,0 +1,71 @@
+﻿@model WebApp.ViewModels.RentPointViewModel
+
+@{
+    <p> Подробнее о точке @Model.Name </p>
+
+    <div class="col-md-4">
+        <h2>Адрес точки</h2>
+        <p>@Model.Adress</p>
+    </div>
+
+
+    <div class="col-md-4">
+        <h2>Велики на точке</h2>
+        
+        <table class="table">
+            <tr>
+                <th>Имя велосипеда</th>
+                <th>Стоимость</th>
+            </tr>
+            @foreach (var item in Model.Bikes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Работник точки</h2>
+        <p>@Model.EmployeeFullName</p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Денег в кассе</h2>
+        <p>@Model.MoneyInCashBox</p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Денег в сейфе</h2>
+        <p>@Model.MoneyInSafe</p>
+    </div>
+
+    <div class="col-md-4">
+        <h2>Паспорта в сейфе</h2>
+
+        <table class="table">
+            <tr>
+                <th>Серия</th>
+                <th>Номер</th>
+            </tr>
+            @foreach (var item in Model.PassportsInsafe)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Series)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+}

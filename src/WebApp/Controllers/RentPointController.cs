@@ -31,12 +31,6 @@ namespace WebApp.Controllers
             _commandBuilder = commandBuilder;
         }
 
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult List()
         {
 
@@ -84,6 +78,28 @@ namespace WebApp.Controllers
             var vm = new RentPointViewModel(rp);
             return View(vm);
         }
+
+        [HttpPost]
+        public IActionResult Edit(RentPointViewModel rp)
+        {
+            return RedirectToAction("List");
+        }
+
+
+
+        public IActionResult Details(string adress)
+        {
+            RentPoint rp = _queryBuilder
+                .For<RentPoint>()
+                .With
+                (new AdressCriterion
+                {
+                    Adress = adress
+                });
+            var vm = new RentPointViewModel(rp);
+            return View(vm);
+        }
+
 
     }
 }

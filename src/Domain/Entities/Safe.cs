@@ -87,6 +87,7 @@ namespace Domain.Entities
 
         public RentPoint CurrentRentPoint { get; protected set; }
 
+        public IEnumerable<PassportDeposit> PassportDeposits => _passportDeposits.AsEnumerable();
 
 
     }

@@ -37,7 +37,7 @@
                     @Html.ActionLink("Редактировать", "Edit", new { adress = item.Adress })
                 </td>
                 <td>
-                    @Html.ActionLink("Удалить", "Delete", item)
+                    @Html.ActionLink("Детали", "Details", new { adress = item.Adress } )
                 </td>
             </tr>
         }
