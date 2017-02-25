@@ -99,7 +99,7 @@ namespace Web
 
             containerBuilder.Populate(services); 
             this.ApplicationContainer = containerBuilder.Build();
-            
+
             return new AutofacServiceProvider(this.ApplicationContainer);
 
         }

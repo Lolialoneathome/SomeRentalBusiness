@@ -20,6 +20,12 @@ namespace WebApp.Controllers
         private readonly IQueryBuilder _queryBuilder;
         private readonly ICommandBuilder _commandBuilder;
 
+        public void Init()
+        {
+            _commandBuilder.Execute(
+                new LoadRentPointsCommandContext());
+        }
+
         public HomeController(
             IQueryBuilder queryBuilder,
             ICommandBuilder commandBuilder)
@@ -27,8 +33,7 @@ namespace WebApp.Controllers
             _queryBuilder = queryBuilder;
             _commandBuilder = commandBuilder;
 
-            _commandBuilder.Execute(
-                new LoadRentPointsCommandContext());
+            Init();
         }
 
         // GET: /<controller>/
